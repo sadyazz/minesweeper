@@ -1,9 +1,32 @@
+@import "tailwindcss";
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
+  --app-bg: #151515;
+  --text: #1a1a1a;
+  --surface: #ccc;
+  --btn-color: #151515;
+  --btn-active: #555;
+  --cell-border-color: #bbbbbb;
+  --one: blue;
+  --two: green;
+  --three: tomato;
+  --four: darkviolet;
+  --five: darkred;
+  --six: steelblue;
+  --seven: black;
+  --eight: black;
+  --red: firebrick;
+  --green: forestgreen;
+  --overlay-light: #fff;
+  --overlay-mid: #ccc;
+  --overlay-dark: #aaa;
 
+  background-color: var(--app-bg);
+  color: var(--text);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
