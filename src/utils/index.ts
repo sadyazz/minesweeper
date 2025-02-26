@@ -70,3 +70,26 @@ export const initBoard = (rows:number, columns:number, totalMines:number)=>{
 export const initGame = (rows:number, columns:number, totalMines:number)=>{
     return initBoard(rows, columns, totalMines);
 }
+
+export const revealEmptyCells = (board:TBoard, rows:number, columns:number, row:number, column:number)=>{
+    const queue: [number, number][] = [[row, column]];
+
+    while(queue.length > 0){
+        const [currentRow, currentColumn] = queue.shift()!;
+        
+        const cell = board[currentRow][currentColumn];
+        cell.isOpened = true;
+        
+        if(cell.value === 0){
+            for(const [dRow, dCol] of directions){
+                const newRow = currentRow + dRow;
+                const newColumn = currentColumn + dCol;
+
+                if(newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < columns && !board[newRow][newColumn].isOpened && !board[newRow][newColumn].isFlagged){
+                    queue.push([newRow, newColumn]);
+                }
+            }
+        }
+    }
+    return board;
+}

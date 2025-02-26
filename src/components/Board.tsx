@@ -1,15 +1,18 @@
 import Cell from './Cell'
 import { TBoard } from '../types'
-import { initGame } from '../utils'
 
-const BOARD: TBoard = initGame(9,9,10);
+type Props = {
+    gameBoard: TBoard;
+    handleCellLeftClick: (row:number, column:number)=>void;
+}
 
-const Board = () => {
+const Board = (props:Props) => {
+    const {gameBoard, handleCellLeftClick} = props;
   return (
     <div className="board">
-    {BOARD.map((row) => (
-    <div className="flex"> {row.map((cell) => (
-    <Cell cell={cell} />
+    {gameBoard.map((row, rowIndex) => (
+    <div className="flex"> {row.map((cell, cellIndex) => (
+    <Cell cell={cell} rowIndex={rowIndex} cellIndex={cellIndex} handleCellLeftClick={handleCellLeftClick} />
     ))}
     </div>
     ))}
