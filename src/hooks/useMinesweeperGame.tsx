@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { initGame, revealEmptyCells } from "../utils";
 import { TBoard } from "../types";
-const useMinesweeperGame = ()=>{
 
+const useMinesweeperGame = ()=>{
     const [gameBoard, setGameBoard] = useState(initGame(9,9,10));
 
+
     const openCell = (board:TBoard, row:number, column:number) => { 
-        const newGameBoard: TBoard = JSON.parse(JSON.stringify(gameBoard));
+        const newGameBoard: TBoard = JSON.parse(JSON.stringify(board));
         const cell = newGameBoard[row][column];
         const isMineCell = cell.value === 'mine';
         const isNumberCell = typeof cell.value === 'number' && cell.value > 0;
