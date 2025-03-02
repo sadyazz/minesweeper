@@ -1,10 +1,25 @@
-import { useState } from "react";
-import { initGame, revealEmptyCells } from "../utils";
-import { TBoard } from "../types";
+import { useCallback, useState } from "react";
+import { checkGameWin, initGame, revealAllMines, revealEmptyCells } from "../utils";
+import { TBoard, TLevel } from "../types";
+import { defaultLevel, levels } from "../constants";
 
 const useMinesweeperGame = ()=>{
-    const [gameBoard, setGameBoard] = useState(initGame(9,9,10));
+    const [level, setLevel] = useState<TLevel>(defaultLevel);
+    const currentLevel = levels[level];
 
+    const changeLevel = useCallback((selectedLevel:TLevel)=>{
+        setLevel(selectedLevel);
+    }, []);
+    
+    const [gameBoard, setGameBoard] = useState(
+        initGame(
+            levels[defaultLevel].rows,
+            levels[defaultLevel].columns, 
+            levels[defaultLevel].mines
+        ));
+    const [isGameOver, setIsGameOver] = useState(false);
+    const [isGameWin, setIsGameWin] = useState(false);
+    const isGameEnded = isGameOver || isGameWin;
 
     const openCell = (board:TBoard, row:number, column:number) => { 
         const newGameBoard: TBoard = JSON.parse(JSON.stringify(board));
@@ -14,7 +29,9 @@ const useMinesweeperGame = ()=>{
         const isEmptyCell = typeof cell.value === 'number' && cell.value === 0;
 
         if(isMineCell){
-            console.log("mine cell");
+            setIsGameOver(true);
+            cell.highlight = 'red';
+            revealAllMines(newGameBoard);
         }
 
         if(!isMineCell){
@@ -22,9 +39,15 @@ const useMinesweeperGame = ()=>{
             if(isNumberCell){
                 console.log("number cell");
             }
+
             if(isEmptyCell){
-                revealEmptyCells(newGameBoard, 9, 9, row, column);
+                revealEmptyCells(newGameBoard, currentLevel.rows, currentLevel.columns, row, column);
                 console.log("empty cell");
+            }
+
+            if(checkGameWin(newGameBoard, currentLevel.mines)){
+                setIsGameWin(true);
+                revealAllMines(newGameBoard, true);
             }
         }
         return newGameBoard;
@@ -32,6 +55,10 @@ const useMinesweeperGame = ()=>{
     }
     
     const handleCellLeftClick = (row:number, column:number) => {
+        if(isGameEnded || gameBoard[row][column].isOpened || gameBoard[row][column].isFlagged){
+            return null;
+        }
+
         const newGameBoard: TBoard = JSON.parse(JSON.stringify(gameBoard));
         
         const boardAfterOpeningCell = openCell(newGameBoard, row, column);
@@ -42,7 +69,7 @@ const useMinesweeperGame = ()=>{
 
     }
 
-    return {gameBoard, handleCellLeftClick};
+    return {level, changeLevel, gameBoard, handleCellLeftClick};
 }
 
 export default useMinesweeperGame;

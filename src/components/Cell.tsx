@@ -14,7 +14,11 @@ type CellProps = {
 const Cell = ({ cell, rowIndex, cellIndex, handleCellLeftClick }: CellProps) => {
   return (
     <div 
-    className={clsx('cell', typeof cell.value === 'number' && cell_numbers_colors[cell.value])}
+    className={clsx(
+        'cell', 
+        typeof cell.value === 'number' && cell_numbers_colors[cell.value],
+        cell.value === 'mine' && cell.highlight 
+    )}
     onClick={()=>handleCellLeftClick(rowIndex, cellIndex)}>
         {typeof cell.value === 'number' && <>{cell.value || ''}</>}
         {cell.value === 'mine' && <img className='w-[75%] h-[75%]' src={mineIcon} alt='mine' />}

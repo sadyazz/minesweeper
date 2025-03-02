@@ -74,3 +74,11 @@
 .flag.visible{
   display: block;
 }
+
+.red{
+  background-color: var(--red);
+}
+
+.green{
+  background-color: var(--green);
+}

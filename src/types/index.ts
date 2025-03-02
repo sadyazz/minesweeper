@@ -1,3 +1,5 @@
+import { levels } from "../constants";
+
 type OpenedCell = {
     isOpened: true;
     isFlagged: false;
@@ -27,3 +29,5 @@ type ClosedNumberCell = ClosedCell & NumberCell;
 export  type GameCell = OpenedMineCell | ClosedMineCell | OpenedNumberCell | ClosedNumberCell | EmptyCell;
 
 export type TBoard = GameCell[][];
+
+export type TLevel = keyof typeof levels;

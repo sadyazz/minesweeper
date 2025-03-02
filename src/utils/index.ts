@@ -93,3 +93,37 @@ export const revealEmptyCells = (board:TBoard, rows:number, columns:number, row:
     }
     return board;
 }
+
+export const revealAllMines = (board: TBoard, highlightWin?: boolean) => {
+    board.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell.value === "mine") {
+          cell.isOpened = true;
+
+          if (highlightWin) {
+            cell.highlight = "green";
+          }
+        }
+      });
+    });
+  };
+
+  export const checkGameWin = (board:TBoard, totalMines:number)=>{
+    let unopenedCells = 0;
+    let correctlyFlaggedMines = 0;
+
+    board.forEach((row)=>{
+        row.forEach((cell)=>{
+            if(!cell.isOpened){
+                unopenedCells++;
+            }
+
+            if(cell.isFlagged && cell.value === 'mine'){
+                correctlyFlaggedMines++;
+            }
+            
+        })
+    })
+
+    return unopenedCells === totalMines || correctlyFlaggedMines === totalMines;
+  }
