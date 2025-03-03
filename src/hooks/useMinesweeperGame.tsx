@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { checkGameWin, initGame, revealAllMines, revealEmptyCells } from "../utils";
 import { TBoard, TLevel } from "../types";
 import { defaultLevel, levels } from "../constants";
@@ -17,6 +17,22 @@ const useMinesweeperGame = ()=>{
             levels[defaultLevel].columns, 
             levels[defaultLevel].mines
         ));
+
+    const resetBoard = useCallback(()=>{
+        setIsGameOver(false);
+        setIsGameWin(false);
+
+        setGameBoard(initGame(currentLevel.rows, currentLevel.columns, currentLevel.mines));
+    }, [currentLevel]);
+
+    const startNewGame = useCallback(()=>{
+        resetBoard();
+    }, [resetBoard]);
+
+    useEffect(()=>{
+       startNewGame();
+    }, [level]);
+
     const [isGameOver, setIsGameOver] = useState(false);
     const [isGameWin, setIsGameWin] = useState(false);
     const isGameEnded = isGameOver || isGameWin;

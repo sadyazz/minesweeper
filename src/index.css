@@ -25,6 +25,9 @@
   --overlay-mid: #ccc;
   --overlay-dark: #aaa;
 
+  --btn-color: #151515;
+  --btn-active:#555;
+
   background-color: var(--app-bg);
   color: var(--text);
 

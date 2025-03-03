@@ -56,6 +56,10 @@
   color: var(--eight);
 }
 
+.cell.small{
+  --cell-size: 1.8rem;
+}
+
 .overlay{
   background-color: var(--overlay-mid);
   border-top-color: var(--overlay-light);
@@ -81,4 +85,42 @@
 
 .green{
   background-color: var(--green);
+}
+
+
+.select-level {
+  display: flex;
+  list-style-type: none;
+  padding-left: 0;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.select-level li {
+  flex-grow: 1;
+}
+
+.select-level button {
+  width: 100%;
+  display: flex;
+  padding: 0.25em 1rem;
+  justify-content: center;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s;
+  text-transform: capitalize;
+}
+
+.select-level button.active {
+  background-color: var(--btn-active);
+}
+
+button {
+  background-color: var(--btn-color);
+  color: var(--surface);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
 }
