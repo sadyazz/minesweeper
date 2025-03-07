@@ -124,3 +124,38 @@ button {
   border-radius: 0.25rem;
   font-weight: 700;
 }
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.win {
+  color: var(--cell-mine-green);
+}
+
+.game-over {
+  color: var(--cell-mine-red);
+}
+
+.header-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.header-icon {
+  width: 1em;
+  height: 1em;
+}

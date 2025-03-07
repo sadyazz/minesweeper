@@ -7,6 +7,7 @@ import {
 } from "../utils";
 import { TBoard, TLevel } from "../types";
 import { defaultLevel, levels } from "../constants";
+import useTimer from "./useTimer";
 
 const useMinesweeperGame = () => {
   const [level, setLevel] = useState<TLevel>(defaultLevel);
@@ -24,19 +25,6 @@ const useMinesweeperGame = () => {
     )
   );
 
-  const resetBoard = useCallback(() => {
-    setIsGameOver(false);
-    setIsGameWin(false);
-
-    setGameBoard(
-      initGame(currentLevel.rows, currentLevel.columns, currentLevel.mines)
-    );
-  }, [currentLevel]);
-
-  const startNewGame = useCallback(() => {
-    resetBoard();
-  }, [resetBoard]);
-
   useEffect(() => {
     startNewGame();
   }, [level]);
@@ -44,10 +32,62 @@ const useMinesweeperGame = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [isGameWin, setIsGameWin] = useState(false);
   const isGameEnded = isGameOver || isGameWin;
-
+  
   const [totalFlags, setTotalFlags] = useState(0);
+  const minesLeft = currentLevel.mines - totalFlags;
+  
+  const { timeDiff, isTimerRunning, startTimer, stopTimer, resetTimer } = useTimer();
+
+  const resetBoard = useCallback(
+    (isRestart?: boolean) => {
+      stopTimer();
+      resetTimer();
+      setTotalFlags(0);
+      setIsGameOver(false);
+      setIsGameWin(false);
+
+      if (isRestart) {
+        setGameBoard((prevGameBoard) =>
+          prevGameBoard.map((row) =>
+            row.map((cell) => {
+              return {
+                value: cell.value,
+                isFlagged: false,
+                isOpened: false,
+              };
+            })
+          )
+        );
+      } else {
+        setGameBoard(
+          initGame(
+            currentLevel.rows,
+            currentLevel.columns,
+            currentLevel.mines
+          )
+        );
+      }
+    },
+    [currentLevel, resetTimer, stopTimer]
+  );
+
+  const startNewGame = useCallback(() => {
+    resetBoard();
+  }, [resetBoard]);
+
+  const restartGame = useCallback(() => {
+    resetBoard(true);
+  }, [resetBoard]);
+ 
+  useEffect(()=>{
+    if(isGameEnded){
+        stopTimer();
+    }
+  },[isGameEnded, stopTimer])
 
   const openCell = (board: TBoard, row: number, column: number) => {
+    if(!isTimerRunning) startTimer();
+
     const newGameBoard: TBoard = JSON.parse(JSON.stringify(board));
     const cell = newGameBoard[row][column];
     const isMineCell = cell.value === "mine";
@@ -112,6 +152,8 @@ const useMinesweeperGame = () => {
 
     if (isGameEnded || gameBoard[row][column].isOpened) return;
 
+    if(!isTimerRunning) startTimer();
+
     let flagsDiff = 0;
 
     setGameBoard((prevGameBoard) => {
@@ -140,6 +182,13 @@ const useMinesweeperGame = () => {
     gameBoard,
     handleCellLeftClick,
     handleCellRightClick,
+    isGameWin,
+    isGameOver,
+    isGameEnded,
+    minesLeft, 
+    timeDiff,
+    startNewGame,
+    restartGame
   };
 };
 
