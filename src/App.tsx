@@ -3,6 +3,7 @@ import Board from "./components/Board";
 import Header from "./components/Header";
 import SelectLevel from "./components/SelectLevel";
 import useMinesweeperGame from "./hooks/useMinesweeperGame";
+import ReactConfetti from "react-confetti";
 
 function App() {
   const {
@@ -38,6 +39,7 @@ function App() {
         handleCellRightClick={handleCellRightClick}
       />
       <SelectLevel level={level} changeLevel={changeLevel} />
+      {isGameWin && <ReactConfetti />}
     </div>
   );
 }

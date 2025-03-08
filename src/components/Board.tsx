@@ -18,10 +18,11 @@ const Board = (props: Props) => {
   return (
     <div className="board">
       {gameBoard.map((row, rowIndex) => (
-        <div className="flex">
+        <div className="flex" key={`row-${rowIndex}`}>
           {" "}
           {row.map((cell, cellIndex) => (
             <Cell
+              key={`cell-${rowIndex}-${cellIndex}`}
               cell={cell}
               rowIndex={rowIndex}
               cellIndex={cellIndex}

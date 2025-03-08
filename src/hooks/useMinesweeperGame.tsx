@@ -102,9 +102,6 @@ const useMinesweeperGame = () => {
 
     if (!isMineCell) {
       cell.isOpened = true;
-      if (isNumberCell) {
-        console.log("number cell");
-      }
 
       if (isEmptyCell) {
         revealEmptyCells(
@@ -114,7 +111,6 @@ const useMinesweeperGame = () => {
           row,
           column
         );
-        console.log("empty cell");
       }
 
       if (checkGameWin(newGameBoard, currentLevel.mines)) {

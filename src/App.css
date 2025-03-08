@@ -68,7 +68,6 @@
   border-bottom-color: var(--overlay-dark);
   box-sizing: border-box;
   box-shadow: 3px 3px 8px #33333366;
-  opacity: 0.5;
 }
 
 .flag{
