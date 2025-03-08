@@ -99,6 +99,9 @@ const useMinesweeperGame = () => {
       cell.highlight = "red";
       revealAllMines(newGameBoard);
     }
+    if(isNumberCell){
+      console.log("number", isNumberCell);
+    }
 
     if (!isMineCell) {
       cell.isOpened = true;
